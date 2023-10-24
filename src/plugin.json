@@ -25,15 +25,15 @@
       "name": "Page One",
       "path": "/a/%PLUGIN_ID%/one",
       "role": "Admin",
-      "addToNav": true,
-      "defaultNav": true
+      "addToNav": false,
+      "defaultNav": false
     },
     {
       "type": "page",
       "name": "Page Two",
       "path": "/a/%PLUGIN_ID%/two",
       "role": "Admin",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false
     },
     {
@@ -42,14 +42,14 @@
       "path": "/a/%PLUGIN_ID%/three",
       "role": "Admin",
       "addToNav": true,
-      "defaultNav": false
+      "defaultNav": true
     },
     {
       "type": "page",
       "name": "Page Four",
       "path": "/a/%PLUGIN_ID%/four",
       "role": "Admin",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false
     },
     {
@@ -62,7 +62,7 @@
     }
   ],
   "dependencies": {
-    "grafanaDependency": ">=10.0.3",
+    "grafanaDependency": ">=9.0.0",
     "plugins": []
   }
 }

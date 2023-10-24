@@ -20,9 +20,12 @@ export function PageOne() {
   //   .then(response => response.json())
   //   // 4. Setting *dogImage* to the image url that we received from the response above
   // },[])
+  // /api/plugins/lesly-uploadfile-app/resources/ping
+  // /api/plugins/lesly-uploadfile-app/settings
+  // /api/plugins/lesly-uploadfile-app/metrics
   const updatePlugin = async () => {
     const resp = await getBackendSrv().fetch({
-      url: `/api/plugins/lesly-uploadfile-app/settings`
+      url: `/api/plugins/lesly-uploadfile-app/resources/leslyconf`
     }).toPromise()
     console.log('resp', resp);
     

@@ -14,3 +14,7 @@ services:
     volumes:
       - ./dist:/var/lib/grafana/plugins/lesly-uploadfile-app
       - ./provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_PLUGIN_UPLOAD_IPHOST=${GF_PLUGIN_UPLOAD_IPHOST}
+      - GF_PLUGIN_UPLOAD_DBHOST=${GF_PLUGIN_UPLOAD_DBHOST}
+      - GF_PLUGIN_UPLOAD_LESLYHOST=${GF_PLUGIN_UPLOAD_LESLYHOST}

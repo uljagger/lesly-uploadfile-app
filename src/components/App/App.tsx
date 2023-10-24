@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { AppRootProps } from '@grafana/data';
 import { ROUTES } from '../../constants';
-import { PageFour, PageOne, PageThree, PageTwo } from '../../pages';
+import { PageFour, PageThree, PageTwo } from '../../pages';
 import { prefixRoute } from '../../utils/utils.routing';
 
 export function App(props: AppRootProps) {
@@ -15,7 +15,8 @@ export function App(props: AppRootProps) {
       <Route exact path={prefixRoute(ROUTES.Four)} component={PageFour} />
 
       {/* Default page */}
-      <Route component={PageOne} />
+      {/* <Route component={PageOne} /> */}
+      <Route component={PageThree} />
     </Switch>
   );
 }
