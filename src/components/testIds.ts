@@ -14,6 +14,14 @@ export const testIds = {
   },
   pageThree: {
     container: 'data-testid pg-three-container',
+    host: 'data-testid pg-three-host',
+    database: 'data-testid pg-three-database',
+    filetype: 'data-testid pg-three-filetype',
+    measurement: 'data-testid pg-three-measurement',
+    fileName: 'data-testid pg-three-fileName',
+    tags: 'data-testid pg-three-tags',
+    bufferSize: 'data-testid pg-three-bufferSize',
+    process: 'data-testid pg-three-process'
   },
   pageFour: {
     container: 'data-testid pg-four-container',
