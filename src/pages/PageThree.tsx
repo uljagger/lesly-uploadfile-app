@@ -35,7 +35,7 @@ export function PageThree() {
     const resp = await getBackendSrv().fetch({
       url: `/api/plugins/lesly-uploadfile-app/resources/leslyconf`
     }).toPromise()
-    console.log('resp', resp);
+    console.log('resp', resp); 
   }
   
 
