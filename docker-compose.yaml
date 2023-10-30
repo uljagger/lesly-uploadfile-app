@@ -15,6 +15,7 @@ services:
       - ./dist:/var/lib/grafana/plugins/lesly-uploadfile-app
       - ./provisioning:/etc/grafana/provisioning
     environment:
+      # - GF_INSTALL_PLUGINS=http://${GF_PLUGIN_UPLOAD_IPHOST}:9997/static/archives/lesly-smartfactory-app.zip;lesly-smartfactory-app
       - GF_PLUGIN_UPLOAD_IPHOST=${GF_PLUGIN_UPLOAD_IPHOST}
       - GF_PLUGIN_UPLOAD_DBHOST=${GF_PLUGIN_UPLOAD_DBHOST}
       - GF_PLUGIN_UPLOAD_LESLYHOST=${GF_PLUGIN_UPLOAD_LESLYHOST}

@@ -7,6 +7,7 @@ import { INFLUX_DATABASES, FILE_TYPES, REGEX_IP } from '../constants';
 import { testIds } from '../components/testIds';
 import { PluginPage, getAppEvents, getBackendSrv } from '@grafana/runtime';
 import Dropzone from 'react-dropzone';
+import { lastValueFrom } from 'rxjs';
 
 // types
 type State = {
@@ -25,21 +26,6 @@ export function PageThree() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dbState, setDbState] = useState<string>('rawdatas');
   const [fileTypeState, setFileTypeState] = useState<string>('csv');
-  
-  // console.log('GRAFANA_VERSION', process.env.GRAFANA_VERSION);
-  useEffect(() => {
-    updatePlugin()
-  },[])
-
-  const updatePlugin = async () => {
-    const resp = await getBackendSrv().fetch({
-      url: `/api/plugins/lesly-uploadfile-app/resources/leslyconf`
-    }).toPromise()
-    console.log('resp', resp); 
-  }
-  
-
-
   const [state, setState] = useState<State>({
     host: '',
     measurement: '',
@@ -47,7 +33,6 @@ export function PageThree() {
     tags: '',
     bufferSize: 100,
   });
-
 
   const options = {
     multiple: false,
@@ -62,6 +47,33 @@ export function PageThree() {
     }
   }
 
+
+  type IpHosts = {
+    ipHost: string;
+    dbHost: string;
+    leslyHost: string;
+  };
+
+
+  useEffect(() => {
+    const updatePlugin = async (): Promise<IpHosts> => {
+      const result = await lastValueFrom(
+        getBackendSrv().fetch<IpHosts>({
+          url: `/api/plugins/lesly-uploadfile-app/resources/leslyconf`
+        })
+      );
+      // console.log('result', result.data); 
+      const  newState = {...state, host: result.data.ipHost}
+      setState(newState)
+      return result.data  
+    }
+
+    updatePlugin()
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
+
+
+  
   // functions
 async function uploadCSV(formData: FormData, state: State) {
   const appEvents = getAppEvents();
@@ -258,7 +270,7 @@ async function uploadModels(formData: FormData, state: State) {
         ? <>
             <FieldSet label="Upload Function or Model Settings">
               <InlineFieldRow>
-                <InlineField label="Upload Host IP">
+                <InlineField label="Upload Host IP" disabled={true}>
                     <Input
                       width={30}
                       name="host"
@@ -279,7 +291,7 @@ async function uploadModels(formData: FormData, state: State) {
                 
                 <HorizontalGroup >
                 <InlineFieldRow>
-                  <InlineField label="Upload Host IP">
+                  <InlineField label="Upload Host IP" disabled={true}>
                       <Input
                         width={30}
                         name="host"
@@ -289,6 +301,7 @@ async function uploadModels(formData: FormData, state: State) {
                         onChange={onChange}
                         required
                         className={s.borderInput}
+                        disabled={true}
                       />
                   </InlineField>
                   <InlineField label="Operation Type">
