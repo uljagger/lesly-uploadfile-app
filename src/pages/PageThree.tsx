@@ -1,13 +1,16 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import { useParams } from 'react-router-dom';
 import { GrafanaTheme2, SelectableValue, AppEvents } from '@grafana/data';
 import { FieldSet, HorizontalGroup, InlineField, InlineFieldRow, Input, Select, Spinner, TextArea, useStyles2 } from '@grafana/ui';
 import { INFLUX_DATABASES, FILE_TYPES, REGEX_IP } from '../constants';
 import { testIds } from '../components/testIds';
-import { PluginPage, getAppEvents, getBackendSrv } from '@grafana/runtime';
+import { PluginPage, PluginPageProps, getAppEvents, getBackendSrv } from '@grafana/runtime';
 import Dropzone from 'react-dropzone';
-import { lastValueFrom } from 'rxjs';
+
+/**
+ * Properties
+ */
+export interface Props extends PluginPageProps {}
 
 // types
 type State = {
@@ -18,11 +21,21 @@ type State = {
   bufferSize: number
 };
 
+// type IpHosts = {
+//   ipHost: string;
+//   dbHost: string;
+//   leslyHost: string;
+// };
 
+// const INITIAL_IPADRESSES: IpHosts = {
+//   ipHost: '',
+//   dbHost: '',
+//   leslyHost: ''
+// };
 
-export function PageThree() {
+export function PageThree(props: Props) {
   const s = useStyles2(getStyles);
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dbState, setDbState] = useState<string>('rawdatas');
   const [fileTypeState, setFileTypeState] = useState<string>('csv');
@@ -33,6 +46,7 @@ export function PageThree() {
     tags: '',
     bufferSize: 100,
   });
+
 
   const options = {
     multiple: false,
@@ -48,37 +62,20 @@ export function PageThree() {
   }
 
 
-  type IpHosts = {
-    ipHost: string;
-    dbHost: string;
-    leslyHost: string;
-  };
-
-
   useEffect(() => {
-    const updatePlugin = async (): Promise<IpHosts> => {
-      const result = await lastValueFrom(
-        getBackendSrv().fetch<IpHosts>({
-          url: `/api/plugins/lesly-uploadfile-app/resources/leslyconf`
-        })
-      );
-      // console.log('result', result.data); 
-      const  newState = {...state, host: result.data.ipHost}
-      setState(newState)
-      return result.data  
+    const updatePlugin = async () => {
+      const {ipHost} = await getBackendSrv().get(`/api/plugins/lesly-uploadfile-app/resources/leslyconf`);
+      setState(prev => ({...prev, host: ipHost}))
     }
-
-    updatePlugin()
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[])
-
+    updatePlugin();
+  },[]) 
 
   
   // functions
 async function uploadCSV(formData: FormData, state: State) {
   const appEvents = getAppEvents();
 
-  console.log('state', state);
+  // console.log('state', state);
 
   setIsLoading(true);
   let reqOptions = {
@@ -276,7 +273,7 @@ async function uploadModels(formData: FormData, state: State) {
                       name="host"
                       data-testid={testIds.pageThree.host}
                       value={state.host}
-                      placeholder={`E.g.: 192.168.0.1`}
+                      placeholder={`192.168.0.1`}
                       onChange={onChange}
                       required
                       className={s.borderInput}
@@ -297,7 +294,7 @@ async function uploadModels(formData: FormData, state: State) {
                         name="host"
                         data-testid={testIds.pageThree.host}
                         value={state.host}
-                        placeholder={`E.g.: 192.168.0.1`}
+                        placeholder={`192.168.0.1`}
                         onChange={onChange}
                         required
                         className={s.borderInput}
@@ -387,25 +384,11 @@ async function uploadModels(formData: FormData, state: State) {
             </div>
           </>
         )}
-        {id && (
-          <>
-            <strong>ID:</strong> {id}
-          </>
-        )}
-        {/* No ID parameter */}
-        {!id && (
-          <>
-            {/* <strong>No id parameter is set in the URL.</strong> <br />
-            Try the following link: <br />
-            <Link className={s.link} to={prefixRoute(`${ROUTES.Three}/123456789`)}>
-              {prefixRoute(`${ROUTES.Three}/123456789`)}
-            </Link> */}
-          </>
-        )}
       </div>
     </PluginPage>
   );
 }
+
 
 const getStyles = (theme: GrafanaTheme2) => ({
   link: css`

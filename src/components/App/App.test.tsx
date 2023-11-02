@@ -32,6 +32,8 @@ describe('Components/App', () => {
       </BrowserRouter>
     );
 
-    expect(screen.queryByText(/this is page one./i)).toBeInTheDocument();
+    expect(screen.queryByText(/Select File Type/i)).toBeInTheDocument();
+    
   });
+
 });
