@@ -148,16 +148,16 @@ Make sure that all the binaries are executable and have a 0755 (-rwxr-xr-x) perm
 ## 3 - Sign the plugin.
 
 export GRAFANA_ACCESS_POLICY_TOKEN=<YOUR_ACCESS_POLICY_TOKEN>
-npx @grafana/sign-plugin@latest --rootUrls https://lesly.online,http://162.19.65.91,http://192.168.220.203:3001,http://192.168.220.202:3002,http://10.0.0.16:3000 
+npx @grafana/sign-plugin@latest --rootUrls https://lesly.online,http://162.19.65.91,http://192.168.220.203:3001,http://192.168.220.202:3002,http://localhost:3000,http://lesly-config-man 
 
 After the rootUrls flag, enter a comma-separated list of URLs for the Grafana instances where you intend to install the plugin.
 
 ## 4 - Rename the dist directory to match your plugin ID, and then create a ZIP archive.
 
-mv dist/ lesly-smartfactory-app
-zip lesly-smartfactory-app.zip lesly-smartfactory-app -r
+mv dist/ lesly-uploadfile-app
+zip lesly-uploadfile-app.zip lesly-uploadfile-app -r
 
 
 ## 5 - Install a packaged plugin
 
-unzip lesly-smartfactory-app-1.0.0.zip -d plugins/lesly-smartfactory-app 
+unzip lesly-uploadfile-app-1.0.0.zip -d plugins/lesly-uploadfile-app 
